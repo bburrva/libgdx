@@ -7,18 +7,30 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	TextureRegion down, up, right, left, stand;
 	float x,y, xv, yv;
-	boolean faceRight, faceUp;
+	private Sprite sprite;
+//	final Rectangle bounds = sprite.getBoundingRectangle();
+//	Rectangle screenBounds = new Rectangle(0, 0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+//	float screenLeft = screenBounds.getX();
+//	float screenBottom = screenBounds.getY();
+//	float screenTop = screenBottom + screenBounds.getHeight();
+//	float screenRight = screenLeft + screenBounds.getWidth();
+//	float spriteLeft = bounds.getX();
+//	float spriteBottom = bounds.getY();
+//	float spriteTop = spriteBottom + bounds.getHeight();
+//	float spriteRight = spriteLeft + bounds.getWidth();
 
 
 	static final int WIDTH = 16;
@@ -80,25 +92,48 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	void move() {
+//		float newX = sprite.getX();
+//		float newY = sprite.getY();
 		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
 			yv = MAX_VELOCITY;
+			if (y > Gdx.graphics.getHeight()) {
+				y = 0;
+			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 			yv = MAX_VELOCITY * -1;
+			if (y < 0) {
+				y = Gdx.graphics.getHeight();
+			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 			xv = MAX_VELOCITY;
-			faceRight = true;
+			if (x > Gdx.graphics.getWidth()) {
+				x = 0;
+			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			xv = MAX_VELOCITY * -1;
-			faceRight = false;
+			if (x < 0) {
+				x = Gdx.graphics.getWidth();
+			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
 			MAX_VELOCITY = 200;
 		} else {
 			MAX_VELOCITY = 100;
 		}
+//		if (spriteRight < screenLeft) {
+//			newX = screenRight;
+//		} else if (spriteLeft > screenRight){
+//			newX = screenLeft;
+//		}
+//		if (spriteTop < screenBottom) {
+//			newY = screenTop;
+//		} else if (spriteBottom > screenTop) {
+//			newY = screenBottom;
+//		}
+//		sprite.setPosition(newX, newY);
 
 		y += yv * Gdx.graphics.getDeltaTime();
 		x += xv * Gdx.graphics.getDeltaTime();
